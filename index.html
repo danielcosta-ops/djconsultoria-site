@@ -81,17 +81,20 @@ body.slides #deck{display:flex}
 body.slides #site{display:none}
 .mhead{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(18,26,38,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(52,64,90,.6)}
 .mhead .brand{font-size:14px}
-.mhead .btn-gold{padding:9px 14px;font-size:13px}
+.mhead .btn-gold{padding:9px 14px;font-size:13px;white-space:nowrap}
+@media (max-width:400px){.mhead .logo{gap:9px}.mhead .logo .lw small{display:none}.mhead .logo .lw{font-size:11px;letter-spacing:2px;padding-left:9px}.mhead .logo img{height:24px}.mhead .btn-gold{padding:8px 12px;font-size:12.5px}}
+@media (max-width:380px){.mhead .logo .lw{display:none}}
 section.m{padding:56px 20px;position:relative}
 .eyebrow{font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
 h1.m{font-size:36px;line-height:1.08;font-weight:600;letter-spacing:-.5px}
 h2.m{font-size:30px;line-height:1.12;font-weight:600;letter-spacing:-.3px;margin-bottom:14px}
 .lead{font-size:17px;line-height:1.55;color:var(--muted)}
 .hero{padding:0 0 48px!important;overflow:hidden}
-.hero .ph{position:relative;height:420px;background:#0e141e}
-.hero .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 15%}
-.hero .ph:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,26,38,0) 45%,var(--bg) 100%)}
-.hero .tx{padding:0 20px;margin-top:-56px;position:relative}
+.hero .ph{position:relative;height:440px;background:#0e141e;overflow:hidden}
+.hero .ph img{position:absolute;width:118%;max-width:none;height:auto;left:9%;top:-3%}
+.hero .ph:before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,#121A26 6%,rgba(18,26,38,0) 26%)}
+.hero .ph:after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(18,26,38,0) 45%,var(--bg) 100%)}
+.hero .tx{padding:0 20px;margin-top:-56px;position:relative;z-index:2}
 .hero .lead{margin-top:16px}
 .ctas{display:flex;flex-direction:column;gap:10px;margin-top:26px}
 .ctas .btn{justify-content:center;padding:15px 20px;font-size:16px}
@@ -221,6 +224,8 @@ section.m{scroll-margin-top:64px}
 
   section.m.hero{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;align-content:center;gap:56px;padding:40px var(--side) 48px!important}
   .hero .ph{order:2;height:620px;border-radius:28px;overflow:hidden}
+  .hero .ph:before{display:none}
+  .hero .ph img{position:static;width:100%;height:100%;object-fit:cover;object-position:50% 15%}
   .hero .ph:after{background:linear-gradient(90deg,var(--bg) 0%,rgba(18,26,38,0) 35%),linear-gradient(0deg,rgba(18,26,38,.6) 0%,rgba(18,26,38,0) 30%)}
   .hero .tx{margin:0;padding:0}
   .ctas{flex-direction:row;margin-top:34px}
@@ -740,7 +745,7 @@ section.m{scroll-margin-top:64px}
     var sticky = document.getElementById('sticky'), hero = document.querySelector('.hero');
     var finalSec = document.querySelector('.final');
     window.addEventListener('scroll', function(){
-      var y = window.scrollY, past = y > hero.offsetHeight - 80;
+      var y = window.scrollY, ctas = hero.querySelector('.ctas'), past = ctas ? ctas.getBoundingClientRect().bottom < 0 : y > hero.offsetHeight;
       var nearEnd = finalSec.getBoundingClientRect().top < window.innerHeight * 0.85;
       sticky.classList.toggle('show', past && !nearEnd);
     }, {passive:true});
